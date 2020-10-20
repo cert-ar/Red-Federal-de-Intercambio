@@ -21,6 +21,9 @@ https://misp-project.org/MISP-sizer y https://github.com/misp/MISP-sizer
 5.2 Administración de usuarios y contraseñas
 5.3 Permisos de usuarios
 5.4 Opciones de seguridad
+Configuración de zona y servidor ntp
+horaoficial.ar
+
 5.5 Permisos sobre ficheros
 5.6 Administración de recursos
 5.7 Auditoría
