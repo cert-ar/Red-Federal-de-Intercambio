@@ -1,0 +1,1 @@
+Documento estandar de seguridad para Ubuntu 20
