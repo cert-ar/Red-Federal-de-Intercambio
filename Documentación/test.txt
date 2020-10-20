@@ -1,6 +1,7 @@
 Documento estandar de seguridad para Ubuntu 20
 
 
+<<<<<<< Updated upstream
 1- Objetivo
 El objetivo del presente documento es la definición de los parámetros que se deben configurar a nivel sistema operativo y servicios.
 
@@ -22,3 +23,6 @@ N/A.
 5.7 Auditoría
 5.8 Políticas de firewall
 5.9 Medidas adicionales
+=======
+test de compatibilidad
+>>>>>>> Stashed changes
