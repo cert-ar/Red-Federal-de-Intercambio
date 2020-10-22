@@ -1,7 +1,8 @@
 Guía de Instalación de MISP en Sistemas Operativos Linux/Ubuntu
 Autor: MISP Federal
 Versión 1.0 – 20/10/2020
-Este tutorial cubre los pasos básicos para la instalación de una instancia MISP en Sistemas Operativos Linux Ubuntu 18.04 LTS y Ubuntu 20.04 LTS. Incluye hardering del Sistema Operativo, configuración de paquetes del Sistema, instalación de MISP y configuraciones para sincronización con otras instancias.
+Este tutorial cubre los pasos básicos para la instalación de una instancia MISP en Sistemas Operativos Linux Ubuntu 18.04 LTS y Ubuntu 20.04 LTS. 
+Incluye hardering del Sistema Operativo, configuración de paquetes del Sistema, instalación de MISP y configuraciones para sincronización con otras instancias.
 
 1. Instalación y hardering básicos
 El primer paso luego de una instalación básica del Sistema Operativo Ubuntu es configurar un firewall para proteger la instalación y evitar ataques provenientes de internet, principalmente de fuerza bruta de diccionario.
