@@ -14,7 +14,7 @@ https://misp-project.org/MISP-sizer/
 
 Atención: Configurar teclado en ingles para mayor facilidad en el traslado de comandos y símbolos a la consola.
 
-# 1. Instalación de hardening básicos
+# 1. Configuración de hardening básicos
 El primer paso luego de una instalación básica del Sistema Operativo Ubuntu es configurar un firewall para proteger la instalación y evitar ataques provenientes de internet, principalmente de fuerza bruta de diccionario.
 
 ## 1.1. Configuración de Firewall
@@ -552,9 +552,9 @@ Busque la línea 'salt' => '' y coloque la nueva cadena generada por el comando 
 # chmod -R 750 ${PATH_TO_MISP}/app/Config
 ```
 
-### 4.2 Habilitar a los trabajadores 
+### 4.2 Habilitar a los workers 
 
-4. 2.1. Habilitar el permiso de ejecución en el script que carga a los trabajadores:
+4. 2.1. Habilitar el permiso de ejecución en el script que carga a los workers:
 ```sh
 # chmod +x $PATH_TO_MISP/app/Console/worker/start.sh
 
