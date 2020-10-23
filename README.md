@@ -14,7 +14,7 @@ https://misp-project.org/MISP-sizer/
 
 Atención: Configurar teclado en ingles para mayor facilidad en el traslado de comandos y símbolos a la consola.
 
-# 1. Instalación de hardening básicos
+# 1. Configuración de hardening básicos
 El primer paso luego de una instalación básica del Sistema Operativo Ubuntu es configurar un firewall para proteger la instalación y evitar ataques provenientes de internet, principalmente de fuerza bruta de diccionario.
 
 ## 1.1. Configuración de Firewall
