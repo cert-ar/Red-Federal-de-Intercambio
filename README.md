@@ -9,7 +9,8 @@
 > Incluye hardering del Sistema Operativo, configuración de paquetes del Sistema, instalación de MISP y configuraciones para sincronización con otras instancias.
 
 # 0. Instalación de sistema operativo
-Para el cálculo y estimación de espacio requerido se recomienda utilizar la siguiente herramienta: https://misp-project.org/MISP-sizer/ 
+Para el cálculo y estimación de espacio requerido se recomienda utilizar la siguiente herramienta:   
+https://misp-project.org/MISP-sizer/ 
 
 Atención: Configurar teclado en ingles para mayor facilidad en el traslado de comandos y símbolos a la consola.
 
