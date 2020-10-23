@@ -552,9 +552,9 @@ Busque la línea 'salt' => '' y coloque la nueva cadena generada por el comando 
 # chmod -R 750 ${PATH_TO_MISP}/app/Config
 ```
 
-### 4.2 Habilitar a los trabajadores 
+### 4.2 Habilitar a los workers 
 
-4. 2.1. Habilitar el permiso de ejecución en el script que carga a los trabajadores:
+4. 2.1. Habilitar el permiso de ejecución en el script que carga a los workers:
 ```sh
 # chmod +x $PATH_TO_MISP/app/Console/worker/start.sh
 
