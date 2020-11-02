@@ -254,10 +254,10 @@ bash /tmp/INSTALL.sh -c
 ```sh
 hostname --fqdn
 ```
-Recuerde el nombre obtenido, se solicitará en el paso siguiente.
+Recordar el nombre obtenido, se solicitará en el paso siguiente.
 
 
-2.2.2. Ingrese el siguiente comando:
+2.2.2. Ingresar el siguiente comando:
 ```sh
 sudo apt-get install postfix dialog -qy
 ```
@@ -268,7 +268,7 @@ Se presentarán una serie de configuraciones en formato visual. Siga los pasos i
 - El paso siguiente será ingresar el **FQDN** que se obtuvo en el paso 2.2.1.
 
 
-**Recomendacion:** Ingresar con cautela. Este dato es de gran importancia y se volverá a utilizar en pasos posteriores.  
+**Recomendación:** Ingresar con cautela este dato. Es de gran importancia y se volverá a utilizar en pasos posteriores.  
 En caso de haber ingresado un FQDN erróneo se recomienda reconfigurar Postfix con el siguiente comando:
 dpkg-reconfigure postfix  
 
