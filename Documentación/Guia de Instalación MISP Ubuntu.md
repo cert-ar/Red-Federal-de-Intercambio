@@ -403,8 +403,8 @@ A continuación se detalla la configuración recomendada para realizar si decide
 4.1.7. Personalizar MISP:
 ```sh
 # $SUDO_WWW -- $CAKE Admin setSetting "MISP.footermidleft" ""
-# $SUDO_WWW -- $CAKE Admin setSetting "MISP.footermidright" "Operated by <SUA_ORG>"
-# $SUDO_WWW -- $CAKE Admin setSetting "MISP.welcome_text_top" "<SUA_ORG>"
+# $SUDO_WWW -- $CAKE Admin setSetting "MISP.footermidright" "Operated by <SU_ORG>"
+# $SUDO_WWW -- $CAKE Admin setSetting "MISP.welcome_text_top" "<SU_ORG>"
 # $SUDO_WWW -- $CAKE Admin setSetting "MISP.welcome_text_bottom" ""
 ```
 
