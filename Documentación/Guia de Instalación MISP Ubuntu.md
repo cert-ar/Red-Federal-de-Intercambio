@@ -141,9 +141,7 @@ COMMIT
 Para esto, confirme con “YES” en las siguientes dos preguntas sobre IPv4 e IPv6.
 
 
-
 1.1.7. Verificar si los archivos con las reglas fueron creados en /etc/iptables  
-.
 
 
 ## 1.2. Configuración y hardening de SSH
@@ -419,7 +417,6 @@ Estas actualizaciones demoran unos minutos.
 # $SUDO_WWW -- $CAKE Admin updateNoticeLists
 # $SUDO_WWW -- $CAKE Admin updateObjectTemplates "1337"
 ```
-
 
 # Bibliografía
 
