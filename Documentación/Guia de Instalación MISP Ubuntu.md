@@ -360,12 +360,12 @@ A continuación se detalla la configuración recomendada para realizar si decide
 ```
 4.1.5. Configurar opciones por defecto:
 ```sh
-# Forzar valores predeterminados para hacer que la configuración del servidor MISP sea menos ROJA
+# Forzar valores predeterminados para reducir los problemas "Críticos" (red) de la configuración del servidor MISP
 
 # $SUDO_WWW -- $CAKE Admin setSetting "MISP.language" "eng"
 # $SUDO_WWW -- $CAKE Admin setSetting "MISP.proposals_block_attributes" false
 
-# Forzar valores predeterminados para hacer que la configuración del servidor MISP sea menos AMARILLA
+# Forzar valores predeterminados para reducir las configuraciones "recomendadas" (yellow) en el servidor MISP
 
 # $SUDO_WWW -- $CAKE Admin setSetting "MISP.ssdeep_correlation_threshold" 40 
 # $SUDO_WWW -- $CAKE Admin setSetting "MISP.extended_alert_subject" false 
@@ -389,7 +389,7 @@ A continuación se detalla la configuración recomendada para realizar si decide
 # $SUDO_WWW -- $CAKE Admin setSetting "MISP.showorgalternate" false
 # $SUDO_WWW -- $CAKE Admin setSetting "MISP.event_view_filter_fields" "id, uuid, value, comment, type, category, Tag.name"
 
-# Forzar valores predeterminados para hacer que la configuración del servidor MISP sea menos VERDE
+# Forzar valores predeterminados para reducir las configuraciones "opcionales" (green) en el servidor MISP
 
 # $SUDO_WWW -- $CAKE Admin setSetting "Security.password_policy_length" 12
 # $SUDO_WWW -- $CAKE Admin setSetting "Security.password_policy_complexity" '/^((?=.*\d)|(?=.*\W+))(?![\n])(?=.*[A-Z])(?=.*[a-z]).*$|.{16,}/'
