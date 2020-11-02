@@ -150,11 +150,11 @@ Para esto, confirme con “YES” en las siguientes dos preguntas sobre IPv4 e I
 
 1.2.1. Generar el par de claves con el siguiente comando:
 ```sh
-$ ssh-keygen -t ed25519 -q -f /path/da/chave/misp_ed25519 -C 'MISP'
+$ ssh-keygen -t ed25519 -q -f /path/de/clave/misp_ed25519 -C 'MISP'
 ```
 1.2.2. Verificar si se generó el par de claves:
 ```sh
-$ ls -la /path/da/chave/misp_ed25519
+$ ls -la /path/de/clave/misp_ed25519
 ```
 1.2.3. Copiar el contenido de la clave pública en el archivo /root/.ssh/authorized_keys en el servidor MISP:
 
