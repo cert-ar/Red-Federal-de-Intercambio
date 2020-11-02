@@ -12,13 +12,15 @@
 Para el cálculo y estimación de espacio requerido se recomienda utilizar la siguiente herramienta:   
 https://misp-project.org/MISP-sizer/ 
 
-Atención: Configurar teclado en ingles para mayor facilidad en el traslado de comandos y símbolos a la consola.
+**Atención:** Se recomienda configurar teclado en inglés para mayor facilidad en el traslado de comandos y símbolos a la consola.
 
-# 1. Instalación de hardening básicos
+# 1. Configuración de hardening básicos
 El primer paso luego de una instalación básica del Sistema Operativo Ubuntu es configurar un firewall para proteger la instalación y evitar ataques provenientes de internet, principalmente de fuerza bruta de diccionario.
 
 ## 1.1. Configuración de Firewall
-1. 1.1. Crear el archivo /root/rules.v4
+**Aclaración:** a analizar en base a implementación propia.
+
+1.1.1. Crear el archivo /root/rules.v4
 ```sh
 *filter
 :INPUT DROP [0:0]
@@ -68,7 +70,7 @@ El primer paso luego de una instalación básica del Sistema Operativo Ubuntu es
 COMMIT
 ```
 
-1. 1.2. Crear el archivo /root/rules.v6
+1.1.2. Crear el archivo /root/rules.v6
 ```sh
 *filter
 :INPUT DROP [0:0]
@@ -117,510 +119,193 @@ COMMIT
 COMMIT
 ```
 
-1. 1.3.  Cargar las reglas del firewall con los comandos:
+1.1.3.  Cargar las reglas del firewall con los comandos:
 ```sh
 # iptables-restore /root/rules.v4
 # ip6tables-restore /root/rules.v6
 ```
 
-1. 1.4. Verificar si las reglas se cargaron con los comandos:
+1.1.4. Verificar si las reglas se cargaron con los comandos:
 ```sh
 # iptables -nL
 # ip6tables -nL
 ```
 
-1. 1.5. Instalar el paquete iptables-persistent para mantener las reglas cargadas de forma permanente con los comandos:
+1.1.5. Instalar el paquete iptables-persistent para mantener las reglas cargadas de forma permanente con los comandos:
 ```sh
 # apt-get update
 # apt-get install iptables-persistent -qy
 ```
 
-1. 1.6. Luego de la instalación iptables-persistent guardará las reglas del firewall que están en la memoria, en archivos de reglas en el directorio /etc/iptables. 
+1.1.6. Luego de la instalación iptables-persistent guardará las reglas del firewall que están en la memoria, en archivos de reglas en el directorio /etc/iptables. 
 Para esto, confirme con “YES” en las siguientes dos preguntas sobre IPv4 e IPv6.
 
 
 
-   1.1.7. Verificar si los archivos con las reglas fueron creados en /etc/iptables  
+1.1.7. Verificar si los archivos con las reglas fueron creados en /etc/iptables  
 .
 
 
 ## 1.2. Configuración y hardening de SSH
-.
-## 1.3. Configuración de SSHD para aceptar solo inicios de sesión usando un par de claves
-.
-## 1.4. Configuración zona horaria 
-por ahora falla
 
-## 1.5. Instalación y configuración de unbound 
-1. 5.1. Instalar Unbound:
+1.2.1. Generar el par de claves con el siguiente comando:
+```sh
+$ ssh-keygen -t ed25519 -q -f /path/da/chave/misp_ed25519 -C 'MISP'
+```
+1.2.2. Verificar si se generó el par de claves:
+```sh
+$ ls -la /path/da/chave/misp_ed25519
+```
+1.2.3. Copiar el contenido de la clave pública en el archivo /root/.ssh/authorized_keys en el servidor MISP:
+
+```sh
+$ cat /path/da/chave/misp_ed25519.pub
+```
+## 1.3. Configurar sshd para aceptar solo inicios de sesión usando un par de claves
+1.3.1. Si el servidor no tiene sshd instalado, instalarlo con el comando:
+
+```sh
+# apt-get install openssh-server -qy
+
+```
+1.3.2. Editar el archivo / etc / ssh / sshd_config y cambie los siguientes valores:
+
+```sh
+PermitRootLogin prohibit-password
+PubkeyAuthentication yes
+PasswordAuthentication no
+```
+1.3.3. Reiniciar el servicio ssh con el comando:
+```sh
+# service sshd restart
+```
+
+## 1.4. Instalación y configuración de unbound 
+1.4.1. Instalar Unbound:
 ```sh
 	# apt-get install unbound -qy
 ```
-1. 5.2. Desactivar el resolutor del sistema con los comandos:
+1.4.2. Desactivar el resolutor del sistema con los comandos:
 ```sh
 	# systemctl disable systemd-resolved
 	# systemctl stop systemd-resolved
 	# rm /etc/resolv.conf
 ```
-1. 5.3. Crear nuevamente el archivo /etc/resolv.conf con el siguiente contenido:
+1.4.3. Crear nuevamente el archivo /etc/resolv.conf con el siguiente contenido:
 ```sh
 nameserver ::1
 nameserver 127.0.0.1
 ```
-1. 5.4. Reiniciar el servicio de Unbound:
+1.4.4. Reiniciar el servicio de Unbound:
 ```sh
 	# service unbound restart
 ```
-1. 5.5. Probar si Unbound está resolviendo nombres y validando DNSSEC con consultas: 
+1.4.5. Probar si Unbound está resolviendo nombres y validando DNSSEC con consultas: 
 ```sh
 	# dig www.dnssec-failed.org @127.0.0.1
 ```
 
-## 1.6 Actualización de Ubuntu 
+## 1.5 Actualización de Ubuntu 
 
-1. 6.1. Actualizar Ubuntu:
+1.5.1. Actualizar Ubuntu:
 ```sh
 # apt-get update && apt-get dist-upgrade -y
 ```
-Reiniciar el servidor de ser necesario.
+Reiniciar el servidor de ser necesario.  
 
-## 1.7 Instalación Postfix 
-**Aclaración: revisar funcionamiento. Paso de verificación de envío de mail intentado pero no comprobado** 
 
-1. 7.1. Instalar Postfix:
-```sh
-# apt-get install postfix mailutils -qy
-```
-1. 7.2. Responder "Sitio de Internet" en la ventana "Configuración de Postfix"
- 
-1.7.3. Ingrese su FQDN en la siguiente pantalla  
+# 2. Instalación de MISP y sus dependencias
+Esta sección abarca la instalación de MISP para Ubuntu 20.04 
 
-**Recomendacion: Dejarlo como está por defecto.**  
-Este dato se volverá a usar en múltiples pasos posteriores.  
-
-1. 7.4. Comprobar si en el archivo /etc/postfix/main.cf la directiva mynetworks contiene solo direcciones de host local. El archivo debería verse así:  
+## 2.1. Instalación de MISP y sus dependencias principales
+ A continuación se instalará el Core de MISP junto con MariaDB, Apache, PHP, CakePHP y otras dependencias.
 
 ```sh
-# See /usr/share/postfix/main.cf.dist for a commented, more complete version
+wget -O /tmp/INSTALL.sh https://raw.githubusercontent.com/MISP/MISP/2.4/INSTALL/INSTALL.sh
 
-
-# Debian specific:  Specifying a file name will cause the first
-# line of that file to be used as the name.  The Debian default
-# is /etc/mailname.
-#myorigin = /etc/mailname
-
-smtpd_banner = $myhostname ESMTP $mail_name (Ubuntu)
-biff = no
-
-# appending .domain is the MUA's job.
-append_dot_mydomain = no
-
-# Uncomment the next line to generate "delayed mail" warnings
-#delay_warning_time = 4h
-
-readme_directory = no
-
-# See http://www.postfix.org/COMPATIBILITY_README.html -- default to 2 on
-# fresh installs.
-compatibility_level = 2
-
-# TLS parameters
-smtpd_tls_cert_file=/etc/ssl/certs/ssl-cert-snakeoil.pem
-smtpd_tls_key_file=/etc/ssl/private/ssl-cert-snakeoil.key
-smtpd_use_tls=yes
-smtpd_tls_session_cache_database = btree:${data_directory}/smtpd_scache
-smtp_tls_session_cache_database = btree:${data_directory}/smtp_scache
-
-# See /usr/share/doc/postfix/TLS_README.gz in the postfix-doc package for
-# information on enabling SSL in the smtp client.
-
-smtpd_relay_restrictions = permit_mynetworks permit_sasl_authenticated defer_unauth_destination
-myhostname = <FQDN>
-alias_maps = hash:/etc/aliases
-alias_database = hash:/etc/aliases
-myorigin = /etc/mailname
-mydestination = $myhostname, <FQDN>, localhost.<domínio>, , localhost
-relayhost = 
-mynetworks = 127.0.0.0/8 [::ffff:127.0.0.0]/104 [::1]/128
-mailbox_size_limit = 0
-recipient_delimiter = +
-inet_interfaces = all
-inet_protocols = all
+bash /tmp/INSTALL.sh
 ```
-
-1. 7.5. Editar el archivo /etc/aliases y agregar la siguiente línea:
-```sh
-root: <E-MAIL-PARA-RECEBER-ALERTAS-DESSE-SERVIDOR>
-```
-1. 7.6. Generar una nueva base de datos de alias con el comando:
 
 ```sh
-# newaliases
+wget -O /tmp/INSTALL.sh https://raw.githubusercontent.com/MISP/MISP/2.4/INSTALL/INSTALL.sh
+
+bash /tmp/INSTALL.sh -c
 ```
-1. 7.7. Probar el envio de e-mail:
+**Nota:** este último comando demora bastante tiempo. Se recomienda no interrumpir el proceso hasta que finalice por completo.
+
+## 2.2. Instalación de Postfix
+
+2.2.1. Para averiguar su FQDN, también conocido como Nombre de Dominio Completo, ingrese el siguiente comando:
 ```sh
-# date | mail -s "Teste de envio do `hostname`" root
+hostname --fqdn
 ```
-*Este último paso no funcionó por el momento*  
+Recuerde el nombre obtenido, se solicitará en el paso siguiente.
 
-## 1.8. Instalación de Cron-apt
-.
 
-# 2. Instalación MariaDB, Apache, PHP y otras dependencias de MISP
-## 2.1 Instalación y hardening de mariadb
-
-2. 1.1 Instalar mariadb con el siguiente comando:
+2.2.2. Ingrese el siguiente comando:
 ```sh
-# apt-get install mariadb-client mariadb-server -qy
+sudo apt-get install postfix dialog -qy
 ```
+Se presentarán una serie de configuraciones en formato visual. Siga los pasos indicados a continuación.
 
-2. 1.2 Hardening de mariadb ejecutando el comando mysql_secure_instalation:
-```sh
-# mysql_secure_installation
-```
-A continuación se solicitará la contraseña de mariadb. Como aún no hay una clave, presionar enter.
+- Cuando se consulte por el tipo general de configuración de mail seleccione "Internet Site".
 
-Luego preguntará si se quiere agregar una contraseña raíz: [Y/n] Y
+- El paso siguiente será ingresar el **FQDN** que se obtuvo en el paso 2.2.1.
 
-Ingrese la nueva contraseña.
 
-Desea remover usuarios anónimos?: [Y/n] Y
+**Recomendacion:** Ingresar con cautela. Este dato es de gran importancia y se volverá a utilizar en pasos posteriores.  
+En caso de haber ingresado un FQDN erróneo se recomienda reconfigurar Postfix con el siguiente comando:
+dpkg-reconfigure postfix  
 
-¿Deshabilitar el inicio de sesión de root de forma remota?: [Y/n] Y
 
-¿Eliminar la base de datos de prueba y acceder a ella?: [Y/n] Y
 
-¿Recargar tablas de privilegios ahora?:  [Y/n] Y     
+# 3. Configurar el sitio web MISP 
   
+## 3.1. Ingresar al sitio web MISP
 
-2. 1.3 Comprobar si mariadb se está ejecutando con el comando:
-```sh
-# systemctl status mariadb
-```
+Desde el navegador ingrese el IP de su servidor para poder visualizar el sitio de bienvenida.
 
-### 2.2 Instalación apache
+Las credenciales iniciales son:
 
-2. 1.1 Ingresar el siguiente comando para instalar:
-```sh
-# apt-get install apache2 apache2-doc apache2-utils -qy
-```
+- User: admin@admin.test
 
-2. 1.2 Editar el archivo /etc/apache2/sites-available/000-default.conf
+- Password: admin
 
-Descomentar la línea ServerName y completar con su **FQDN**. 
+**Nota:** No olvidar cambiar el correo electrónico, la contraseña y la clave de autenticación después de la instalación.
 
+# 4. Configuración de MISP
 
-2. 1.3 Volver a cargar el archivo de configuración de apache con el comando:
-```sh
-# service apache2 reload
-```
-Instalar y configurar certbot es opcional si su organización tiene su propio certificado.
+# 4.1 Configuración inicial de MISP
+
+Una vez cambiadas las credenciales, acceder a la sección "Administration" - "Server Settings & Maintenance" - "MISP settings".
+
+Allí se solicitará atención a algunas configuraciones. Se podrán resolver tanto en el panel visual como por consola.
+
+A continuación se detalla la configuración recomendada para realizar si decide utilizar consola. También será util para tener un ejemplo de cada campo si se está configurando de manera visual.
 
 
-### 2.3 Instalación de php 7.4
-2. 3.1. Agregar el repositorio de PHP para garantizar la instalación de PHP 7.4 (necesario en Ubuntu 18.04):
-```sh
-# add-apt-repository ppa:ondrej/php
-```
-2. 3.2. Instalar PHP y los módulos utilizados por MISP:
-```sh
-# apt-get install libapache2-mod-php7.4 php php-cli php-dev \
-php-json php-xml php-mysql php7.4-opcache php-readline \
-php-mbstring php-redis php-gnupg php-gd -qy
-```
 
-2. 3.3. Configurar PHP editando el archivo /etc/php/7.4/apache2/php.ini con los siguientes valores:
-```sh
-upload_max_filesize=50M
-post_max_size=50M
-max_execution_time=300
-memory_limit=2048M
-```
-Verificar los campos expose_php y display_errors del archivo anteriormente mencionado:
-```sh
-expose_php=Off
-display_errors=Off
-```
-Luego de realizar las alteraciones, reiniciar apache:
-```sh
-# service apache2 reload
-```
-
-2. 3.4. Probar php creando el archivo /var/www/html/phpinfo.php con el siguiente contenido:
-```sh
-<?php
-  phpinfo()
-?>
-```
-2. 3.5. Ingresar en el navegador para verificar que php esta funcionando correctamente:  
-
-```sh
-http://<su FQDN>/phpinfo.php
-
-o bien
-
-http://<su ip>/phpinfo.php
-```
-
-2. 3.6. Luego del testeo, remover el archivo phpinfo.php:
-```sh
-# rm /var/www/html/phpinfo.php
-```
-
-
-### 2.4 Instalación dependencias de MISP
-2. 4.1. Instalar las dependencias de MISP:
-
-```sh
-# apt-get install curl gcc git gpg-agent make python python3 openssl \
-redis-server sudo vim zip unzip virtualenv libfuzzy-dev sqlite3 moreutils \
-python3-dev python3-pip libxml2-dev libxslt1-dev zlib1g-dev python-setuptools -qy
-```
-## 3. Instalación de MISP
-Esta sección abarca la instalación de MISP, creación de la base de datos y configuración del sitio web.
-
-### 3.1 Instalación del código de MISP
-
-3. 1.1. - Crear las variables de ambiente con los comandos:
-
-```sh
-# export PATH_TO_MISP=/var/www/MISP
-# export WWW_USER=www-data
-# export SUDO_WWW='sudo -H -u www-data'
-# export CAKE="/var/www/MISP/app/Console/cake"
-```
-3. 1.2. Verifique si las variables fueron creadas con el comando:
-```sh
-# export
-```
-3. 1.3. Crear el directorio donde se instalará MISP:
-```sh
-# mkdir ${PATH_TO_MISP}
-# chown $WWW_USER:$WWW_USER ${PATH_TO_MISP}
-```
-3. 1.4. Descargar el código MISP con los comandos:
-```sh
-# cd ${PATH_TO_MISP}
-# $SUDO_WWW git clone https://github.com/MISP/MISP.git ${PATH_TO_MISP}
-# $SUDO_WWW git submodule update --init --recursive
-
-Configuración para que GIT ignore la diferencia en los permisos en los directorios:
-
-# $SUDO_WWW git submodule foreach --recursive git config core.filemode false
-# $SUDO_WWW git config core.filemode false
-```
-3. 1.5. Crear el virtualenv de python:
-```sh
-# $SUDO_WWW virtualenv -p python3 ${PATH_TO_MISP}/venv
-```
-3. 1.6. Crear el directorio de caché de pip:
-```sh
-# mkdir /var/www/.cache/ 
-# chown $WWW_USER:$WWW_USER /var/www/.cache
-```
-3. 1.7. Descargar e instalar los componentes de MISP:
-```sh
-# cd ${PATH_TO_MISP}/app/files/scripts
-# $SUDO_WWW git clone https://github.com/CybOXProject/python-cybox.git
-# $SUDO_WWW git clone https://github.com/STIXProject/python-stix.git
-# $SUDO_WWW git clone https://github.com/MAECProject/python-maec.git
-
-# $SUDO_WWW git clone https://github.com/CybOXProject/mixbox.git
-
-# cd ${PATH_TO_MISP}/app/files/scripts/mixbox
-# $SUDO_WWW ${PATH_TO_MISP}/venv/bin/pip install .
-
-# cd ${PATH_TO_MISP}/app/files/scripts/python-cybox
-# $SUDO_WWW ${PATH_TO_MISP}/venv/bin/pip install .
-
-# cd ${PATH_TO_MISP}/app/files/scripts/python-stix
-# $SUDO_WWW ${PATH_TO_MISP}/venv/bin/pip install .
-
-# cd $PATH_TO_MISP/app/files/scripts/python-maec
-# $SUDO_WWW ${PATH_TO_MISP}/venv/bin/pip install .
-
-# cd ${PATH_TO_MISP}/cti-python-stix2
-# $SUDO_WWW ${PATH_TO_MISP}/venv/bin/pip install .
-
-```
-3. 1.8. Instalar PyMISP:
-```sh
-# cd ${PATH_TO_MISP}/PyMISP
-# $SUDO_WWW ${PATH_TO_MISP}/venv/bin/pip install .
-```
-3.1.9. Instalar otros paquetes MISP:
-
-```sh
-# $SUDO_WWW ${PATH_TO_MISP}/venv/bin/pip install git+https://github.com/kbandla/pydeep.git
-# $SUDO_WWW ${PATH_TO_MISP}/venv/bin/pip install lief
-# $SUDO_WWW ${PATH_TO_MISP}/venv/bin/pip install zmq redis
-# $SUDO_WWW ${PATH_TO_MISP}/venv/bin/pip install python-magic
-# $SUDO_WWW ${PATH_TO_MISP}/venv/bin/pip install plyara
-```
-### 3.2 Instalación  CackePHP
-
-3. 2.1. Instalar CakePHP con los siguientes comandos:
-```sh
-# cd ${PATH_TO_MISP}/app
-# mkdir /var/www/.composer ; sudo chown $WWW_USER:$WWW_USER /var/www/.composer
-# $SUDO_WWW php composer.phar install
-```
-3. 2.2. Habilitar los módulos para el funcionamento de Cake:
-```sh
-# phpenmod redis
-# phpenmod gnupg
-```
-3. 3.3. Habilitar usuarios de Cake:
-
-```sh
-# $SUDO_WWW cp -fa ${PATH_TO_MISP}/INSTALL/setup/config.php ${PATH_TO_MISP}/app/Plugin/CakeResque/Config/config.php
-```
-### 3.3 Crear base de datos de MISP
-
-3. 3.1. Acceder a mariadb como root: 
-```sh
-# mysql -u root -p
-```
-3. 3.2. Ingresar los siguientes comandos para crear la base de datos MISP y el usuario que tendrá acceso a la base:
-```sh
-CREATE DATABASE misp;
-CREATE USER 'misp_user'@'localhost' IDENTIFIED BY '<MISP_USER-PASSWORD>';
-GRANT USAGE ON *.* to misp_user@localhost;
-GRANT ALL PRIVILEGES on misp.* to 'misp_user'@'localhost';
-FLUSH PRIVILEGES;
-exit
-```
-Sugerencia para la contraseña de misp_user: Generar la siguiente cadena de caracteres, guardarla, y luego utilizarla como contraseña.
-```sh
-# openssl rand -base64 15
-```
-3. 3.2.Importar el esquema de la base de datos MISP:
-```sh
-# ${SUDO_WWW} cat ${PATH_TO_MISP}/INSTALL/MYSQL.sql | mysql -u misp_user misp -p
-```
-### 3.4 Corregir los permisos
-3. 4.1.Para asegurarse de que ningún permiso se haya configurado incorrectamente, corregir todos los permisos en el directorio de instalación de MISP con los comandos:
-```sh
-# chown -R ${WWW_USER}:${WWW_USER} ${PATH_TO_MISP}
-# chmod -R 750 ${PATH_TO_MISP}
-# chmod -R g+ws ${PATH_TO_MISP}/app/tmp
-# chmod -R g+ws ${PATH_TO_MISP}/app/files
-# chmod -R g+ws $PATH_TO_MISP/app/files/scripts/tmp
-```
-### 3.5 Configurar el sitio web MISP 
-  falló
-### 3.6 Habilitar la rotación de registros de MISP
-
-3. 6.1. Habilitar la rotación de registros de MISP:
-```sh
-# cp ${PATH_TO_MISP}/INSTALL/misp.logrotate /etc/logrotate.d/misp
-# chmod 0640 /etc/logrotate.d/misp
-```
-## 4. Configuración de MISP
-Esta sección cubre la configuración inicial de MISP.
-### 4.1 Configuraciones de MISP
-
-4. 1.1. Crear los archivos de configuración copiando los archivos predeterminados proporcionados por MISP:
-```sh
-# $SUDO_WWW cp -a ${PATH_TO_MISP}/app/Config/bootstrap.default.php ${PATH_TO_MISP}/app/Config/bootstrap.php
-# $SUDO_WWW cp -a ${PATH_TO_MISP}/app/Config/database.default.php ${PATH_TO_MISP}/app/Config/database.php
-# $SUDO_WWW cp -a ${PATH_TO_MISP}/app/Config/core.default.php ${PATH_TO_MISP}/app/Config/core.php
-# $SUDO_WWW cp -a ${PATH_TO_MISP}/app/Config/config.default.php ${PATH_TO_MISP}/app/Config/config.php
-```
-4. 1.2. Editar la configuración de acceso a la base de datos de MISP en el archivo database.php:
-
-```sh
-# $SUDO_WWW vi $PATH_TO_MISP/app/Config/database.php
-
-encontre as seguintes linhas:
-'login' => 'misp_user',
-'password' => '<MISP_USER-PASSWORD>',
-'database' => 'misp',
-```
-**Importante:** Genere una nueva sal antes de cambiar la contraseña del usuario administrador del sistema. Se recomienda una contraseña segura generada con el comando:
-```sh
-# openssl rand -base64 24
-```
-4. 1.3. Editar el archivo config.php y configurar el nuevo salt
-```sh
-# $SUDO_WWW vi $PATH_TO_MISP/app/Config/config.php
-Busque la línea 'salt' => '' y coloque la nueva cadena generada por el comando openssl
-```
-4. 1.4. Establecer los permisos correctos en los archivos de configuración con los comandos:
-```sh
-# chown -R $WWW_USER:$WWW_USER ${PATH_TO_MISP}/app/Config
-# chmod -R 750 ${PATH_TO_MISP}/app/Config
-```
-
-### 4.2 Habilitar a los trabajadores 
-
-4. 2.1. Habilitar el permiso de ejecución en el script que carga a los trabajadores:
-```sh
-# chmod +x $PATH_TO_MISP/app/Console/worker/start.sh
-
-```
-4. 2.2. Crear el archivo de configuración del servicio misp-workers editando el archivo /etc/systemd/system/misp-workers.service:
-
-```sh
-[Unit]
-Description=MISP background workers
-After=network.target
-
-[Service]
-Type=forking
-User=www-data
-Group=www-data
-ExecStart=/var/www/MISP/app/Console/worker/start.sh
-Restart=always
-RestartSec=10
-
-[Install]
-WantedBy=multi-user.target
-```
-4. 2.3. Iniciar y habilitar el daemon en el sistema:
-```sh
-# systemctl daemon-reload
-# systemctl enable --now misp-workers
-```
-
-### 4.3 Configuración inicial de MISP
-4. 3.1. Actualizar base de datos:
-```sh
-# $SUDO_WWW -- $CAKE userInit -q
-# $SUDO_WWW -- $CAKE Admin runUpdates
-```
-
-4. 3.2. Definir el path para virtualenv:
-```sh
-# $SUDO_WWW -- $CAKE Admin setSetting "MISP.python_bin" "${PATH_TO_MISP}/venv/bin/python"
-```
-
-4. 3.3. Definir timeouts:
-```sh
-# $SUDO_WWW -- $CAKE Admin setSetting "Session.autoRegenerate" 0
-# $SUDO_WWW -- $CAKE Admin setSetting "Session.timeout" 600
-# $SUDO_WWW -- $CAKE Admin setSetting "Session.cookieTimeout" 3600
-```
-
-4. 3.4. Definir la URL de MISP:
+4.1.1. Definir la URL de MISP:
 ```sh
 # $SUDO_WWW -- $CAKE Baseurl https://<tu FQDN>
 # $SUDO_WWW -- $CAKE Admin setSetting "MISP.external_baseurl" https://<tu FQDN>
 ```
+**Nota:** si la configuración actual de Baseurl figura como https://< tu IP > es correcto dejarlo de esa forma.
 
-4. 3.5. Habilitar la organización predeterminada y configurar algunas variables:
+
+4.1.2. Habilitar la organización predeterminada y configurar algunas variables:
 
 ```sh
 # $SUDO_WWW -- $CAKE Admin setSetting "MISP.host_org_id" 1
-# $SUDO_WWW -- $CAKE Admin setSetting "MISP.email" "<seu_email>"
+# $SUDO_WWW -- $CAKE Admin setSetting "MISP.email" "<tu_email>"
 # $SUDO_WWW -- $CAKE Admin setSetting "MISP.disable_emailing" true
-# $SUDO_WWW -- $CAKE Admin setSetting "MISP.contact" "<seu_email>"
+# $SUDO_WWW -- $CAKE Admin setSetting "MISP.contact" "<tu_email>"
 # $SUDO_WWW -- $CAKE Admin setSetting "MISP.disablerestalert" true
 # $SUDO_WWW -- $CAKE Admin setSetting "MISP.showCorrelationsOnIndex" true
 # $SUDO_WWW -- $CAKE Admin setSetting "MISP.default_event_tag_collection" 0
 ```
 
-4. 3.6. Configurar plugins
+4.1.3. Configurar plugins
 ```sh
 # $SUDO_WWW -- $CAKE Admin setSetting "Plugin.Cortex_services_enable" false
 # $SUDO_WWW -- $CAKE Admin setSetting "Plugin.Cortex_services_url" "http://127.0.0.1"
@@ -651,21 +336,21 @@ WantedBy=multi-user.target
 # $SUDO_WWW -- $CAKE Admin setSetting "Plugin.RPZ_email" "root.localhost"
 ```
 
-4. 3.7. Configurar redis:
+4.1.4. Configurar redis:
 ```sh
 # $SUDO_WWW -- $CAKE Admin setSetting "MISP.redis_host" "127.0.0.1" 
 # $SUDO_WWW -- $CAKE Admin setSetting "MISP.redis_port" 6379 
 # $SUDO_WWW -- $CAKE Admin setSetting "MISP.redis_database" 13 
 # $SUDO_WWW -- $CAKE Admin setSetting "MISP.redis_password" ""
 ```
-4. 3.8. Configurar opciones por defecto:
+4.1.5. Configurar opciones por defecto:
 ```sh
-# Force defaults to make MISP Server Settings less RED
+# Forzar valores predeterminados para hacer que la configuración del servidor MISP sea menos ROJA
 
 # $SUDO_WWW -- $CAKE Admin setSetting "MISP.language" "eng"
 # $SUDO_WWW -- $CAKE Admin setSetting "MISP.proposals_block_attributes" false
 
-# Force defaults to make MISP Server Settings less YELLOW
+# Forzar valores predeterminados para hacer que la configuración del servidor MISP sea menos AMARILLA
 
 # $SUDO_WWW -- $CAKE Admin setSetting "MISP.ssdeep_correlation_threshold" 40 
 # $SUDO_WWW -- $CAKE Admin setSetting "MISP.extended_alert_subject" false 
@@ -689,17 +374,18 @@ WantedBy=multi-user.target
 # $SUDO_WWW -- $CAKE Admin setSetting "MISP.showorgalternate" false
 # $SUDO_WWW -- $CAKE Admin setSetting "MISP.event_view_filter_fields" "id, uuid, value, comment, type, category, Tag.name"
 
-# Force defaults to make MISP Server Settings less GREEN
+# Forzar valores predeterminados para hacer que la configuración del servidor MISP sea menos VERDE
+
 # $SUDO_WWW -- $CAKE Admin setSetting "Security.password_policy_length" 12
 # $SUDO_WWW -- $CAKE Admin setSetting "Security.password_policy_complexity" '/^((?=.*\d)|(?=.*\W+))(?![\n])(?=.*[A-Z])(?=.*[a-z]).*$|.{16,}/'
 # $SUDO_WWW -- $CAKE Admin setSetting "Security.self_registration_message" "If you would like to send us a registration request, please fill out the form below. Make sure you fill out as much information as possible in order to ease the task of the administrators."
 ```
-4. 3.9. Agregar la dirección IP en los registros:
+4.1.6. Agregar la dirección IP en los registros:
 ```sh
 # $SUDO_WWW -- $CAKE Admin setSetting "MISP.log_client_ip" true
 # $SUDO_WWW -- $CAKE Admin setSetting "MISP.log_auth" true
 ```
-4. 3.10. Personalizar MISP:
+4.1.7. Personalizar MISP:
 ```sh
 # $SUDO_WWW -- $CAKE Admin setSetting "MISP.footermidleft" ""
 # $SUDO_WWW -- $CAKE Admin setSetting "MISP.footermidright" "Operated by <SUA_ORG>"
@@ -707,7 +393,7 @@ WantedBy=multi-user.target
 # $SUDO_WWW -- $CAKE Admin setSetting "MISP.welcome_text_bottom" ""
 ```
 
-4. 3.11. Actualizar galaxias, taxonomías entre otros objetos:
+4.1.8. Actualizar galaxias, taxonomías entre otros objetos:
 Estas actualizaciones demoran unos minutos.
 ```sh
 # $SUDO_WWW -- $CAKE Admin updateGalaxies
@@ -718,6 +404,9 @@ Estas actualizaciones demoran unos minutos.
 ```
 
 
+## Bibliografía
 
+- https://misp.github.io/MISP/INSTALL.ubuntu2004/
 
+- https://cert.br/misp/tutorial-ubuntu/
 
