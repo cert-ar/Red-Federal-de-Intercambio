@@ -200,9 +200,25 @@ nameserver 127.0.0.1
 ```sh
 	# service unbound restart
 ```
-1.4.5. Probar si Unbound está resolviendo nombres y validando DNSSEC con consultas: 
+1.4.5. Probar si Unbound está resolviendo nombres y validando DNSSEC: 
 ```sh
+	### RESULTADO con validación de DNSSEC
 	# dig www.dnssec-failed.org @127.0.0.1
+	; <<>> DiG 9.11.3-1ubuntu1.13-Ubuntu <<>> www.dnssec-failed.org
+	;; global options: +cmd
+	;; Got answer:
+	;; ->>HEADER<<- opcode: QUERY, status: SERVFAIL, id: 6943
+	;; flags: qr rd ra; QUERY: 1, ANSWER: 0, AUTHORITY: 0, ADDITIONAL: 1
+
+	;; OPT PSEUDOSECTION:
+	; EDNS: version: 0, flags:; udp: 4096
+	;; QUESTION SECTION:
+	;www.dnssec-failed.org.		IN	A
+
+	;; Query time: 502 msec
+	;; SERVER: 127.0.0.1#53(127.0.0.1)
+	;; WHEN: Thu Sep 10 02:08:51 UTC 2020
+	;; MSG SIZE  rcvd: 50
 ```
 
 ## 1.5 Actualización de Ubuntu 
