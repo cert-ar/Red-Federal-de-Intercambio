@@ -275,7 +275,7 @@ Las credenciales iniciales son:
 
 # 4. Configuración de MISP
 
-# 4.1 Configuración inicial de MISP
+## 4.1 Configuración inicial de MISP
 
 Una vez cambiadas las credenciales, acceder a la sección "Administration" - "Server Settings & Maintenance" - "MISP settings".
 
@@ -404,7 +404,7 @@ Estas actualizaciones demoran unos minutos.
 ```
 
 
-## Bibliografía
+# Bibliografía
 
 - https://misp.github.io/MISP/INSTALL.ubuntu2004/
 
