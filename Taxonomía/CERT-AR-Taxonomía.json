@@ -1,0 +1,254 @@
+{
+
+    "values": [
+      {
+          "predicate": "contenido-abusivo",
+          "entry": [
+                  {
+                      "description": "Correo electronico masivo no solicitado.",
+                      "expanded": "SPAM",
+                      "value": "spam"
+                  },
+                  {
+                      "description": "Contenido discriminatorio, acoso, amenazas, incitacion a la violencia.",
+                      "expanded": "Delito de odio",
+                      "value": "delito-de-odio"
+                  },
+                  {
+                      "description": "Material que represente contenido relacionado con el abuso sexual infantil, etc.",
+                      "expanded": "Abuso sexual infantil, contenido sexual",
+                      "value": "contenido-sexual"
+                  }
+              ]
+      },
+  
+      {
+          "predicate": "contenido-danino",
+          "entry": [
+                  {
+                      "description": "Distribucion de malware, equipo infectado, C&C.",
+                      "expanded": "Malware",
+                      "value": "malware"
+                  }
+              ]
+      },
+  
+      {
+          "predicate": "obtencion-de-informacion",
+          "entry": [
+                  {
+                      "description": "Envio de peticiones a un sistema para descubrir vulnerabilidades, obtencion del trafico.",
+                      "expanded": "Escaneo de redes / analisis de trafico",
+                      "value":"escaneo-de-redes"
+                  },
+                  {
+                      "description": "Recopilacion de informacion personal sin uso de la tecnologia",
+                      "expanded": "Ingenieria social",
+                      "value":"ingenieria-social"
+                  }    
+              ]
+      },
+  
+      {
+          "predicate": "intrusion",
+          "entry": [
+  
+                  {
+                      "description": "Intento o compromiso de un sistema a traves de vulnerabilidades",
+                      "expanded": "Explotacion de vulnerabilidades",
+                      "value":"explotacion-de-vulnerabilidades"
+                  },
+                  {
+                      "description": "Multiples intentos de vulnerar credenciales",
+                      "expanded": "Ataque de Fuerza Bruta",
+                      "value":"ataque-de-fuerza-bruta"
+                  },
+                  {
+                      "description": "Aquellos ataques de naturaleza desconocida",
+                      "expanded": "Ataque desconocido",
+                      "value":"ataque-desconocido"
+                  },
+                  {
+                      "description": "Compromiso de un sistema/aplicacion ej SQLi",
+                      "expanded": "Compromiso de equipo/sistema",
+                      "value":"compromiso-de-equipo-sistema"
+                  },                                                
+                  {
+                      "description": "Intrusion fisica",
+                      "expanded": "Robo",
+                      "value":"robo"
+                  }    
+              ]
+  
+      },    
+      {
+          "predicate": "disponibilidad",
+          "entry": [
+  
+                  {
+                      "description": "Ataque de denegacion de servicio",
+                      "expanded": "Denegacion de Servicio (DoS/dDoS)",
+                      "value":"DoS-dDos"
+                  },
+                  {
+                      "description": "Configuracion debil o erronea de un sistema que permita afectar su disponibilidad",
+                      "expanded": "Configuracion erronea",
+                      "value":"configuracion-erronea"
+                  },
+                  {
+                      "description": "Sabotaje fisico",
+                      "expanded": "Sabotaje",
+                      "value":"sabotaje"
+                  },                                
+                  {
+                      "description": "Afectaciones a la disponibilidad por causas ajenas: desastre natural",
+                      "expanded": "Interrupciones",
+                      "value":"interrupciones"
+                  }    
+              ]
+  
+      },
+      {
+          "predicate": "compromiso-de-la-informacion",
+          "entry": [
+  
+                  {
+                      "description": "Robo de credenciales o acceso a documentos",
+                      "expanded": "Acceso no autorizado a la informacion",
+                      "value":"acceso-no-autorizado-informacion"
+                  },
+                  {
+                      "description": "Modificacion no autorizada (Ej: Ramsomware)",
+                      "expanded": "Modificacion no autorizada de la informacion",
+                      "value":"modificacion-no-autorizada"
+                  },                
+                  {
+                      "description": "Perdida de informacion: fallo de hardware",
+                      "expanded": "Perdida de datos",
+                      "value":"perdida-de-datos"
+                  }    
+              ]
+  
+      },
+      {
+          "predicate": "fraude",
+          "entry": [
+  
+                  {
+                      "description": "Uso de los recursos para propositos inadecuados",
+                      "expanded": "Uso no autorizado de los recursos",
+                      "value":"uso-no-autorizado-de-recursos"
+                  },
+                  {
+                      "description": "Ofrecimiento o instalacion de software, utilizacion o difusion de material protegido por derechos de autor",
+                      "expanded": "Derechos de autor",
+                      "value":"derechos-de-autor"
+                  },
+                  {
+                      "description": "Ataque que suplanta a una entidad",
+                      "expanded": "Suplantacion",
+                      "value":"suplantacion"
+                  },                                
+                  {
+                      "description": "Suplantacion de identidad para la sustraccion de datos",
+                      "expanded": "Phishing",
+                      "value":"phishing"
+                  }    
+              ]
+  
+      },    
+      {
+          "predicate": "vulnerable",
+          "entry": [
+  
+                  {
+                      "description": "Sistema con servicios vulnerables",
+                      "expanded": "Sistema vulnerable",
+                      "value":"sistema-vulnerable"
+                  },
+                  {
+                      "description": "Servicios activos que puedan ser utilizados para el acceso no autorizado en los sistemas(Ej: RDP, Telnet, etc.)",
+                      "expanded": "Publicacion de servicios vulnerables",
+                      "value":"publicacion-de-servicios-vulnerables"
+                  },                
+                  {
+                      "description": "Servicios que permitan la obtencion de informacion sensible",
+                      "expanded": "Revelacion de informacion",
+                      "value":"revelacion-de-informacion"
+                  }    
+              ]
+  
+      },    
+  
+      {
+          "predicate": "otros",
+          "entry": [
+  
+                  {
+                      "description": "Aquellos incidentes que no puedan ser clasificado dentro de los actuales parametros",
+                      "expanded": "Otros",
+                      "value":"otros"
+                  },
+                  {
+                      "description": "Ataques dirigidos a organizaciones",
+                      "expanded": "APT",
+                      "value":"apt"
+                  }    
+              ]
+  
+      }
+    ],  
+  
+  "predicates": [
+      {
+        "description": "",
+        "expanded": "Contenido Abusivo",
+        "value": "contenido-abusivo"
+      },
+      {
+        "description": "",
+        "expanded": "Contenido Danino",
+        "value": "contenido-danino"
+      },
+      {
+        "description": "",
+        "expanded": "Obtencion de informacion",
+        "value": "obtencion-de-informacion"
+      },
+      {
+        "description": "",
+        "expanded": "Intrusion",
+        "value": "intrusion"
+      },    
+      {
+        "description": "",
+        "expanded": "Disponibilidad",
+        "value": "disponibilidad"
+      },
+      {
+        "description": "",
+        "expanded": "Compromiso de la informacion",
+        "value": "compromiso-de-la-informacion"
+      },    
+      {
+        "description": "",
+        "expanded": "Fraude",
+        "value": "fraude"
+      },   
+      {
+        "description": "",
+        "expanded": "Vulnerable",
+        "value": "vulnerable"
+      },       
+      {
+        "description": "",
+        "expanded": "Otros",
+        "value": "otros"
+      }     
+    ],
+  
+  "version": 1,
+  "description": "El CERT Nacional de la Republica Argentina define para su operacion en la coordinacion en la resolucion de incidentes una clasificacion de los diferentes tipos de incidentes",
+  "namespace": "CERT-AR"
+  
+  }
