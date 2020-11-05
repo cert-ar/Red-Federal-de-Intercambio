@@ -9,3 +9,5 @@ Bajo: Gris #808080
 Medio: Verdoso #c7cd3f
 Alto: Ambar #FFBF00
 Crítico: Rojo #FF0000
+
+[![N|Solid](https://github.com/cert-ar/Red-Federal-de-Intercambio/blob/master/Taxonom%C3%ADa/Clasificacion.jpg)]
