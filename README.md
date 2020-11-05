@@ -7,4 +7,6 @@ Su objetivo prevé la implementación de una metodología para el intercambio de
 Se busca agilizar la labor de comunicación de amenazas y brindar información de valor agregado. 
 
 Documentación:  
-Documentos de instalación y hardenizado de plataforma MISP
+Documentos de instalación y hardenizado de plataforma MISP  
+Taxonomía:  
+Incluye archivo json con la taxonomía propuesta para el etiquetado de eventos a compartir.
