@@ -10,5 +10,6 @@ Documentación:
 > Documentos de instalación y hardenizado de plataforma MISP.  
 
 [Taxonomía:](/Taxonomía)  
-> Incluye archivo [json](/Taxonomía/CERT-AR-Taxonomía.json) con la taxonomía propuesta para el etiquetado de eventos a compartir.  
+Incluye descripción y propuesta para el etiquetado de eventos a compartir.
+> Archivo json [CERT-AR-Taxonomía.json](/Taxonomía/CERT-AR-Taxonomía.json) para importar.  
 
