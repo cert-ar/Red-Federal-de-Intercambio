@@ -4,7 +4,7 @@ Las taxonomías permiten clasificar, etiquetar y organizar la información. De e
 
 ### Agregado de taxonomía privada
 
-Se debe ir al directorio /var/www/MISP/app/files/taxonomies/, crear una carpeta para guardar la taxonomia privada, cambiar a esta última y crear el archivo machinetag.json para colocar la taxonomia deseada  ( [(ver contenido del .json)](/CERT-AR-Taxonomía.json)  y se dejaron los codigos de colores a fin de poder customizar la clasificación 
+Se debe ir al directorio /var/www/MISP/app/files/taxonomies/, crear una carpeta para guardar la taxonomia privada, cambiar a esta última y crear el archivo machinetag.json para colocar la taxonomia deseada   [(ver contenido del .json)](/CERT-AR-Taxonomía.json)  adicionalmente se detallan los códigos de colores a fin de poder customizar la clasificación 
 [Criterio de colores]):
 
 ```sh
