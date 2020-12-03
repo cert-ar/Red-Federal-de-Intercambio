@@ -13,3 +13,5 @@ Documentación:
 Incluye descripción y propuesta para el etiquetado de eventos a compartir.
 > Archivo json [CERT-AR-Taxonomía.json](/Taxonomía/CERT-AR-Taxonomía.json) para importar.  
 
+Sincronización con la Red Federal:  
+> Sincronización de una instancia de MISP en la Red Federal.  
