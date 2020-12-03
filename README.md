@@ -6,7 +6,7 @@ La Red Federal de Intercambio de Indicadores de Compromiso, es la conformación,
 Su objetivo prevé la implementación de una metodología para el intercambio de indicadores, adoptar una taxonomía para su uso a nivel federal.
 Se busca agilizar la labor de comunicación de amenazas y brindar información de valor agregado. 
 
-Documentación:  
+[Documentación:](/Documentación)  
 > Documentos de instalación y hardenizado de plataforma MISP.  
 
 > [Proceso de sincronización](/Documentaci%C3%B3n/Sincronizaci%C3%B3n%20con%20la%20Red%20Federal.md)  de una instancia de MISP en la Red Federal.  
