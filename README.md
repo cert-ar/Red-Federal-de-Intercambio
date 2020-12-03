@@ -9,9 +9,9 @@ Se busca agilizar la labor de comunicación de amenazas y brindar información d
 Documentación:  
 > Documentos de instalación y hardenizado de plataforma MISP.  
 
+> [Proceso de sincronización](/Documentaci%C3%B3n/Sincronizaci%C3%B3n%20con%20la%20Red%20Federal.md)  de una instancia de MISP en la Red Federal.  
+
 [Taxonomía:](/Taxonomía)  
 Incluye descripción y propuesta para el etiquetado de eventos a compartir.
 > Archivo json [CERT-AR-Taxonomía.json](/Taxonomía/CERT-AR-Taxonomía.json) para importar.  
 
-Sincronización con la Red Federal:  
-> Proceso de sincronización de una instancia de MISP en la Red Federal.  
