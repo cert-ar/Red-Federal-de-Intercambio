@@ -11,3 +11,42 @@ El CERT Nacional de la República Argentina define para su operación en la coor
 >Crítico: Rojo #FF0000  
   
 [![N|Solid](https://github.com/cert-ar/Red-Federal-de-Intercambio/blob/master/Taxonom%C3%ADa/Clasificacion.jpg)]
+
+### Agregado de taxonomía privada
+
+Se debe ir al directorio /var/www/MISP/app/files/taxonomies/, crear una carpeta para guardar la taxonomia privada, cambiar a esta última y crear el archivo machinetag.json para colocar la taxonomia deseadad:
+
+```sh
+$ cd /var/www/MISP/app/files/taxonomies/
+$ mkdir privatetaxonomy
+$ cd privatetaxonomy
+$ vi machinetag.json
+```
+Una vez que se crea el archivo machinetag.json, se deben colocar valores como los que se ven en el ejemplo
+
+```sh
+{
+  "namespace": "ejemplo",
+  "description": "Algunas palabras descriptivas",
+  "version": 1,
+  "predicates": [
+    {
+      "value": "mi-predicado",
+      "expanded": "mi-predicado"
+    }
+  ],
+  "values": [
+    {
+      "predicate": "mi-predicado",
+      "entry": [
+        {
+          "value": "un-valor",
+          "expanded": "Un valor"
+        }
+      ]
+    }
+  ]
+}
+```
+
+Finalmente se debe ir a la GUI Web de MISP, en la sección de taxonomías y actualizar las mismas una vez se esté conforme con el archivo generado. La taxonomía creada debería estar visible. El último paso es activar las distintas etiquetas propias de esta nueva taxonomía
