@@ -14,7 +14,7 @@ El CERT Nacional de la República Argentina define para su operación en la coor
 
 ### Agregado de taxonomía privada
 
-Se debe ir al directorio /var/www/MISP/app/files/taxonomies/, crear una carpeta para guardar la taxonomia privada, cambiar a esta última y crear el archivo machinetag.json para colocar la taxonomia deseadad:
+Se debe ir al directorio /var/www/MISP/app/files/taxonomies/, crear una carpeta para guardar la taxonomia privada, cambiar a esta última y crear el archivo machinetag.json para colocar la taxonomia deseada  (ver contenido del .json "CERT-AR-Taxonomía.json"):
 
 ```sh
 $ cd /var/www/MISP/app/files/taxonomies/
