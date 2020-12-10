@@ -20,7 +20,7 @@ A continuación se detallan los pasos para establecer la sincronización de even
 
 3. Brindarle al CERT-AR la Auth key generada por el Sync User.
 
-4. Esperar confirmación de parte del CERT-AR luego de que haya levantado el servidor con la información de Base URL requerida, AuthKey brindada, nombre de organización, certificados que correspondan y toda info relevante
+4. Esperar confirmación de parte del CERT-AR luego de que haya levantado el servidor con la información de **URL Base** requerida, **AuthKey** brindada, nombre de organización, certificados que correspondan y toda info relevante
 
 5. Realizar pruebas de comunicación publicando y recibiendo eventos.
 Nota: Los eventos deben ser originados por usuarios que no tengan perfil de administrador
