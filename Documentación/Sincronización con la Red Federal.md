@@ -1,13 +1,24 @@
 # Proceso de Sincronización con el CERT AR
 
+## Parte A
+
 El CERT AR requiere para la sincronización de eventos e indicadores de compromiso de los siguientes elementos (siguiendo lineamientos de [https://www.circl.lu/doc/misp/sharing/]):
 
   - **Nombre de la organización** que se quiere sincronizar junto con su **UUID** (los cuales se obtienen de la instancia propia de MISP)
   - Correo para poder establecer un Sync User
   - Correo para la creación de usuarios
 
-Posteriormente se proporcionará la **Authkey** del **Sync User**, establecido en la organización que se encuentra en el servidor del CERT AR, para poder configurar el servidor de sincronización, así como también demás datos pertenecientes a la instancia (**URL Base**, **Nombre de Instancia**, certificados, etc).
+Posteriormente se proporcionará la **Authkey** del **Sync User**, establecido en la organización que se encuentra en el servidor del CERT AR, para poder configurar el **Servidor de Sincronización**, así como también demás datos pertenecientes a la instancia (**URL Base**, **Nombre de Instancia**, certificados, etc).
+Para la configuración del **Servidor** se debe: 
+1. Colocar la URL Base del CERT AR
+2. Colocar el nombre de la Instancia a la cual se hace referencia
+3. Indicar tipo de organización local
+4. Seleccionar la organización de la instancia propia a la cual se hace referencia (la que posea el **UUID** que fue compartido previamente)
+5. Colocar la **Authkey** recibida
+6. Seleccionar los métodos de sincronización a utilizar
+7. Tildar la opción de Self Signed
 
+## Parte B
 
 A continuación se detallan los pasos para establecer la sincronización de eventos:
 
