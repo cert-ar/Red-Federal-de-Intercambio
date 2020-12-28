@@ -5,4 +5,4 @@ Luego, al momento de generar un evento, se debe indicar que la distribución sea
 
 Sobre el uso de los **Sharing Groups** se aconseja su uso para el trabajo de eventos específicos
 
-[SincroCERTAR]: <https://github.com/cert-ar/Red-Federal-de-Intercambio/Documentaci%C3%B3n/Sincronizaci%C3%B3n%20con%20la%20Red%20Federal.md>
+[SincroCERTAR]: <https://github.com/cert-ar/Red-Federal-de-Intercambio/blob/master/Documentaci%C3%B3n/Sincronizaci%C3%B3n%20con%20la%20Red%20Federal.md>
