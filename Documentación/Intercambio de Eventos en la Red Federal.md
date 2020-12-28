@@ -1,6 +1,6 @@
 # Intercambio de Eventos en la Red Federal
 
-Para poder realizar un intercambio de eventos primero se debe tener la sincronización realizada como se describió en [SincroCERTAR]
+Para poder realizar un intercambio de eventos primero se debe tener la sincronización realizada como se describió en [Sincronización con la Red Federal][SincroCERTAR]
 Luego, al momento de generar un evento, se debe indicar que la distribución sea del tipo Connected communities, siendo los atributos del mismo del tipo Inherited, es decir, que hereden el tipo de distribución del propio evento.
 
 Sobre el uso de los **Sharing Groups** se aconseja su uso para el trabajo de eventos específicos
