@@ -6,7 +6,7 @@ Para poder llevar a cabo la sincronización con el CERT AR se deben llevar a cab
 
 Pasos para establecer la sincronización de eventos:
 
-1. Agregar la organización "Red Federal - CERT.AR" utilizando el UUID brindado por el CERT-AR.
+1. Agregar la organización "Red Federal - CERT.AR" utilizando el UUID brindado por el CERT-AR, sin tildar la opción de Local organisation
 
 2. Crear un Sync User en la organización mencionada en el paso 1.  
 	2.1. Ingresar a la pestaña "Administration" y seleccionar la opción "Add User".  
