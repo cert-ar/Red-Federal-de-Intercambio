@@ -22,7 +22,7 @@ Nota: Los eventos deben ser originados por usuarios que no tengan perfil de admi
 
 ## Parte B
 
-El CERT AR requiere los siguientes elementos (siguiendo lineamientos de [https://www.circl.lu/doc/misp/sharing/]):
+El CERT AR requiere los siguientes elementos (siguiendo lineamientos de [Sharing / Synchronisation]):
 
   - **Nombre de la organización** que se quiere sincronizar junto con su **UUID** (los cuales se obtienen de la instancia propia de MISP)
   - Correo para poder establecer un Sync User
@@ -37,4 +37,6 @@ Para la configuración del **Servidor** se debe:
 5. Colocar la **Authkey** recibida
 6. Seleccionar los métodos de sincronización a utilizar
 7. Tildar la opción de Self Signed
+
+[Sharing / Synchronisation]: <https://www.circl.lu/doc/misp/sharing/>
 
