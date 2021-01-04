@@ -10,6 +10,7 @@ Se busca agilizar la labor de comunicación de amenazas y brindar información d
 > Documentos de instalación y hardenizado de plataforma MISP.  
 
 > [Proceso de sincronización](/Documentaci%C3%B3n/Sincronizaci%C3%B3n%20con%20la%20Red%20Federal.md)  de una instancia de MISP en la Red Federal.  
+
 > [Intercambio de eventos](/Documentaci%C3%B3n/Intercambio%20de%20Eventos%20en%20la%20Red%20Federal.md)  dentro de la Red Federal.  
 
 [Taxonomía:](/Taxonomía)  
