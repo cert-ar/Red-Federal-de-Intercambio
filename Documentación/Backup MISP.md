@@ -1,6 +1,6 @@
 # Backup de MISP
 
-La estrategia de backup que se detalla a continuación consta de guardar todos los archivos de configuración de la plataforma en formato comprimido.
+La estrategia de backup que se detalla a continuación consiste en respaldar los archivos de configuración de la plataforma en formato comprimido.
 
 ### 1. Crear carpeta backup y subcarpetas
 ```sh
@@ -54,4 +54,5 @@ La estrategia de backup que se detalla a continuación consta de guardar todos l
 
 ### 5. Exportar
 
-Exporte el archivo comprimido fuera del servidor de MISP. La forma de realizar este paso dependerá del sistema operativo y la estrategia de almacenado de Backup que tenga su organización.
+Exporte el archivo comprimido fuera del servidor de MISP.  
+La forma de realizar este paso dependerá del sistema operativo y la estrategia de almacenado de Backup que tenga su organización.
