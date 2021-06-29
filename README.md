@@ -18,3 +18,9 @@ Se busca agilizar la labor de comunicación de amenazas y brindar información d
 Incluye descripción y propuesta para el etiquetado de eventos a compartir.
 > Archivo json [CERT-AR-Taxonomía.json](/Taxonomía/CERT-AR-Taxonomía.json) para importar.  
 
+
+
+
+
+[Agradecimientos:]  
+Este proyecto fue implementado en su etapa inicial en conjunto con los CSIRT de Provincia de Buenos Aires; Provincia de Neuquén y la Secretaría de Legal y Técnica  
