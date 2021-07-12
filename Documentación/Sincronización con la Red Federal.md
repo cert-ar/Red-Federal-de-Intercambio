@@ -36,7 +36,7 @@ Para la configuración del **Servidor** se debe:
 4. Seleccionar la organización de la instancia propia a la cual se hace referencia (la que posea el **UUID** que fue compartido previamente)
 5. Colocar la **Authkey** recibida
 6. Seleccionar los métodos de sincronización a utilizar
-7. Tildar la opción de Self Signed
+7. Tildar la opción de **Self Signed**
 
 [Sharing / Synchronisation]: <https://www.circl.lu/doc/misp/sharing/>
 
