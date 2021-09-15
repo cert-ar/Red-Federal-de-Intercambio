@@ -23,4 +23,5 @@ Incluye descripción y propuesta para el etiquetado de eventos a compartir.
 
 
 [Agradecimientos:]  
+
 Este proyecto fue implementado en su etapa inicial en conjunto con los CSIRT de Provincia de Buenos Aires; Provincia de Neuquén y la Secretaría de Legal y Técnica  
