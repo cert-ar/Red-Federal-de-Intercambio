@@ -1,235 +1,25 @@
-# Guía de instalación de MISP en Sistemas Operativos Linux/Ubuntu y configuración de hardening básicos  
+# Guía de instalación de MISP en Sistemas Operativos Linux/Ubuntu  
 
 [![N|Solid](https://upload.wikimedia.org/wikipedia/commons/9/91/Misp-logo.png)](https://www.misp-project.org/)
 
-> Guía de instalación de MISP en Sistemas Operativos Linux/Ubuntu y configuración de hardening básicos 
+> Guía de instalación de MISP en Sistemas Operativos Linux/Ubuntu
 > Autor: MISP Federal  
-> Versión 1.1 – 20/10/2020  
+> Versión 1.2 – 20/10/2023  
 > Este tutorial cubre los pasos básicos para la instalación de una instancia MISP en Sistemas Operativos Linux Ubuntu 18.04 LTS y Ubuntu 20.04 LTS.   
-> Incluye hardering del Sistema Operativo, configuración de paquetes del Sistema, instalación de MISP y configuraciones para sincronización con otras instancias.
-
-# 0. Instalación de sistema operativo
-Para el cálculo y estimación de espacio requerido se recomienda utilizar la siguiente herramienta:   
-https://misp-project.org/MISP-sizer/ 
+> Incluye configuración de paquetes del Sistema, instalación de MISP y configuraciones para sincronización con otras instancias.
 
 **Atención:** Se recomienda configurar teclado en inglés para mayor facilidad en el traslado de comandos y símbolos a la consola.
 
-# 1. Configuración de hardening básicos
-El primer paso luego de una instalación básica del Sistema Operativo Ubuntu es configurar un firewall para proteger la instalación y evitar ataques provenientes de internet, principalmente de fuerza bruta de diccionario.
+# 1. Actualización de Ubuntu 
 
-## 1.1. Configuración de Firewall
-**Aclaración:** a analizar en base a implementación propia.
-
-1.1.1. Crear el archivo /root/rules.v4
-```sh
-*filter
-:INPUT DROP [0:0]
-:FORWARD DROP [0:0]
-:OUTPUT DROP [0:0]
-:IN-NEW - [0:0]
--A INPUT -i lo -j ACCEPT
--A INPUT -p tcp -m tcp ! --tcp-flags FIN,SYN,RST,ACK SYN -m state --state NEW -j DROP
--A INPUT -p tcp -m tcp --tcp-flags FIN,SYN,RST,PSH,ACK,URG NONE -j DROP
--A INPUT -p tcp -m tcp --tcp-flags FIN,SYN FIN,SYN -j DROP
--A INPUT -p tcp -m tcp --tcp-flags SYN,RST SYN,RST -j DROP
--A INPUT -p tcp -m tcp --tcp-flags FIN,RST FIN,RST -j DROP
--A INPUT -p tcp -m tcp --tcp-flags FIN,ACK FIN -j DROP
--A INPUT -p tcp -m tcp --tcp-flags ACK,URG URG -j DROP
--A INPUT -m state --state INVALID -j DROP
--A INPUT -d 224.0.0.0/32 -j REJECT --reject-with icmp-port-unreachable
--A INPUT -p tcp -m state --state ESTABLISHED -j ACCEPT
--A INPUT -p udp -m state --state ESTABLISHED -j ACCEPT
--A INPUT -p icmp -m state --state ESTABLISHED -j ACCEPT
--A INPUT -p icmp -m state --state NEW,ESTABLISHED -m icmp --icmp-type 8 -j ACCEPT
--A INPUT -m state --state NEW -j IN-NEW
--A INPUT -j LOG --log-prefix "IPT_INPUT: " --log-level 6
--A INPUT -j DROP
--A FORWARD -j LOG --log-prefix "IPT_FORWARD: " --log-level 6
--A FORWARD -j DROP
--A OUTPUT -o lo -j ACCEPT
--A OUTPUT -p tcp -m state --state NEW,ESTABLISHED -j ACCEPT
--A OUTPUT -p udp -m state --state NEW,ESTABLISHED -j ACCEPT
--A OUTPUT -p icmp -m state --state NEW,ESTABLISHED -j ACCEPT
--A OUTPUT -j LOG --log-prefix "IPT_OUTPUT: " --log-level 6
--A OUTPUT -j DROP
-
-#Permitir acceso SSH desde la red interna de la Organización
--A IN-NEW -s <Tu-IPv4-O-Red> -p tcp -m tcp --dport 22 --tcp-flags FIN,SYN,RST,ACK SYN -j ACCEPT
-
-#Permitir acceso a MISP desde la red interna de la Organización
--A IN-NEW -s <Tu-IPv4-O-Red> -p tcp -m tcp --tcp-flags FIN,SYN,RST,ACK SYN -m multiport --dports 80,443 -j ACCEPT
-
-#Permitir acceso externo a MISP a terceros
--A IN-NEW -s <IPv4-MISP-tercero> -p tcp -m tcp --tcp-flags FIN,SYN,RST,ACK SYN -m multiport --dports 80,443 -j ACCEPT
-
-#IPs let's encrypt (opcional)
--A IN-NEW -s 66.133.109.36/32 -p tcp -m tcp --tcp-flags FIN,SYN,RST,ACK SYN --dport 80 -j ACCEPT
-
-#IPs ssllabs (opcional)
--A IN-NEW -s 64.41.200.0/24 -p tcp -m tcp --tcp-flags FIN,SYN,RST,ACK SYN --dport 443 -j ACCEPT
-COMMIT
-```
-
-1.1.2. Crear el archivo /root/rules.v6
-```sh
-*filter
-:INPUT DROP [0:0]
-:FORWARD DROP [0:0]
-:OUTPUT DROP [0:0]
--A INPUT -i lo -j ACCEPT
--A INPUT -m rt --rt-type 0 -j DROP
--A INPUT -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
--A INPUT -m conntrack --ctstate INVALID -j DROP
--A INPUT -p ipv6-icmp -m icmp6 --icmpv6-type 1 -j ACCEPT
--A INPUT -p ipv6-icmp -m icmp6 --icmpv6-type 2 -j ACCEPT
--A INPUT -p ipv6-icmp -m icmp6 --icmpv6-type 3 -j ACCEPT
--A INPUT -p ipv6-icmp -m icmp6 --icmpv6-type 4 -j ACCEPT
--A INPUT -p ipv6-icmp -m icmp6 --icmpv6-type 128 -j ACCEPT
--A INPUT -p ipv6-icmp -m icmp6 --icmpv6-type 129 -j ACCEPT
--A INPUT -p ipv6-icmp -m icmp6 --icmpv6-type 133 -j ACCEPT
--A INPUT -p ipv6-icmp -m icmp6 --icmpv6-type 134 -j ACCEPT
--A INPUT -p ipv6-icmp -m icmp6 --icmpv6-type 135 -j ACCEPT
--A INPUT -p ipv6-icmp -m icmp6 --icmpv6-type 136 -j ACCEPT
--A INPUT -p ipv6-icmp -m icmp6 --icmpv6-type 141 -j ACCEPT
--A INPUT -p ipv6-icmp -m icmp6 --icmpv6-type 142 -j ACCEPT
--A INPUT -p ipv6-icmp -m icmp6 --icmpv6-type 148 -j ACCEPT
--A INPUT -p ipv6-icmp -m icmp6 --icmpv6-type 149 -j ACCEPT
-
-#Permitir acceso SSH desde la red interna de la Organización
--A INPUT -s <Tu-IPv6-O-Red> -p tcp -m tcp --dport 22 -j ACCEPT
-
-#Permitir acceso a MISP desde la red interna de la Organización
--A INPUT -s <Tu-IPv4-O-Red> -p tcp -m tcp -m multiport --dports 80,443 -j ACCEPT
-
-# Permitir acceso externo a MISP a terceros
--A INPUT -s <IPv6-MISP-tercero> -p tcp -m tcp -m multiport --dports 80,443 -j ACCEPT
-
-#IPs let's encrypt (opcional)
--A INPUT -s 2600:3000::/29 -p tcp -m tcp --dport 80 --tcp-flags FIN,SYN,RST,ACK SYN -j ACCEPT
--A INPUT -s 2600:1f00::/24 -p tcp -m tcp --dport 80 --tcp-flags FIN,SYN,RST,ACK SYN -j ACCEPT
--A INPUT -s 2a05:d000::/25 -p tcp -m tcp --dport 80 --tcp-flags FIN,SYN,RST,ACK SYN -j ACCEPT
-
-#IPs ssllabs (opcional)
--A INPUT -s 2600:C02:1020:4202::/64 -p tcp -m tcp --dport 443 -j ACCEPT
-
--A INPUT -j LOG --log-prefix "IPT_INPUT6: " --log-level 6
--A INPUT -j REJECT --reject-with icmp6-port-unreachable
--A FORWARD -j REJECT --reject-with icmp6-port-unreachable
--A OUTPUT -j ACCEPT
-COMMIT
-```
-
-1.1.3.  Cargar las reglas del firewall con los comandos:
-```sh
-# iptables-restore /root/rules.v4
-# ip6tables-restore /root/rules.v6
-```
-
-1.1.4. Verificar si las reglas se cargaron con los comandos:
-```sh
-# iptables -nL
-# ip6tables -nL
-```
-
-1.1.5. Instalar el paquete iptables-persistent para mantener las reglas cargadas de forma permanente con los comandos:
-```sh
-# apt-get update
-# apt-get install iptables-persistent -qy
-```
-
-1.1.6. Luego de la instalación iptables-persistent guardará las reglas del firewall que están en la memoria, en archivos de reglas en el directorio /etc/iptables. 
-Para esto, confirme con “YES” en las siguientes dos preguntas sobre IPv4 e IPv6.
-
-
-1.1.7. Verificar si los archivos con las reglas fueron creados en /etc/iptables  
-
-
-## 1.2. Configuración y hardening de SSH
-
-1.2.1. Generar el par de claves con el siguiente comando:
-```sh
-$ ssh-keygen -t ed25519 -q -f /path/de/clave/misp_ed25519 -C 'MISP'
-```
-1.2.2. Verificar si se generó el par de claves:
-```sh
-$ ls -la /path/de/clave/misp_ed25519
-```
-1.2.3. Copiar el contenido de la clave pública en el archivo /root/.ssh/authorized_keys en el servidor MISP:
-
-```sh
-$ cat /path/da/chave/misp_ed25519.pub
-```
-## 1.3. Configurar sshd para aceptar solo inicios de sesión usando un par de claves
-1.3.1. Si el servidor no tiene sshd instalado, instalarlo con el comando:
-
-```sh
-# apt-get install openssh-server -qy
-
-```
-1.3.2. Editar el archivo / etc / ssh / sshd_config y cambie los siguientes valores:
-
-```sh
-PermitRootLogin prohibit-password
-PubkeyAuthentication yes
-PasswordAuthentication no
-```
-1.3.3. Reiniciar el servicio ssh con el comando:
-```sh
-# service sshd restart
-```
-
-## 1.4. Instalación y configuración de unbound 
-1.4.1. Instalar Unbound:
-```sh
-	# apt-get install unbound -qy
-```
-1.4.2. Desactivar el resolutor del sistema con los comandos:
-```sh
-	# systemctl disable systemd-resolved
-	# systemctl stop systemd-resolved
-	# rm /etc/resolv.conf
-```
-1.4.3. Crear nuevamente el archivo /etc/resolv.conf con el siguiente contenido:
-```sh
-nameserver ::1
-nameserver 127.0.0.1
-```
-1.4.4. Reiniciar el servicio de Unbound:
-```sh
-	# service unbound restart
-```
-1.4.5. Probar si Unbound está resolviendo nombres y validando DNSSEC: 
-```sh
-	### RESULTADO con validación de DNSSEC
-	# dig www.dnssec-failed.org @127.0.0.1
-	
-	; <<>> DiG 9.11.3-1ubuntu1.13-Ubuntu <<>> www.dnssec-failed.org
-	;; global options: +cmd
-	;; Got answer:
-	;; ->>HEADER<<- opcode: QUERY, status: SERVFAIL, id: 6943
-	;; flags: qr rd ra; QUERY: 1, ANSWER: 0, AUTHORITY: 0, ADDITIONAL: 1
-
-	;; OPT PSEUDOSECTION:
-	; EDNS: version: 0, flags:; udp: 4096
-	;; QUESTION SECTION:
-	;www.dnssec-failed.org.		IN	A
-
-	;; Query time: 502 msec
-	;; SERVER: 127.0.0.1#53(127.0.0.1)
-	;; WHEN: Thu Sep 10 02:08:51 UTC 2020
-	;; MSG SIZE  rcvd: 50
-```
-
-## 1.5 Actualización de Ubuntu 
-
-1.5.1. Actualizar Ubuntu:
+1.1. Actualizar Ubuntu:
 ```sh
 # apt-get update && apt-get dist-upgrade -y
 ```
 Reiniciar el servidor de ser necesario.  
 
 
-# 2. Instalación de MISP y sus dependencias
+# 2. Instalación de MISP y sus dependencias principales
 Esta sección abarca la instalación de MISP para Ubuntu 20.04 
 
 ## 2.1. Instalación de MISP y sus dependencias principales
